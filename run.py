@@ -46,17 +46,17 @@ async def post_tasks_handler(request: web.Request):
             else:
                 response_obj = {
                     "status": "failed",
-                    "reason": "Parameter 'Interval' must have value >= 0",
+                    "reason": "Error: 'Interval' must have value >= 0",
                 }
                 return web.json_response(text=json.dumps(response_obj), status=500)
         else:
             response_obj = {
                 "status": "failed",
-                "reason": "Parameter 'Count' have value > 0",
+                "reason": "Error: 'Count' must have value > 0",
             }
             return web.json_response(text=json.dumps(response_obj), status=500)
     except Exception as e:
-        response_obj = {"status": "failed", "reason": str(e)}
+        response_obj = {"status": "failed", "reason": "Error: " + str(e)}
         return web.json_response(text=json.dumps(response_obj), status=500)
 
 
