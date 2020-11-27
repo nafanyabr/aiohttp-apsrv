@@ -36,13 +36,28 @@ async def post_tasks_handler(request: web.Request):
         start = float(data["start"])
         interval = float(data["interval"])
 
-        uid = await request.app["aptask_manager"].addtask(count, delta, start, interval)
-
-        response_obj = {"status": "success", "task_id": str(uid)}
-        return web.json_response(text=json.dumps(response_obj))
+        if count > 0:
+            if interval >= 0:
+                uid = await request.app["aptask_manager"].addtask(
+                    count, delta, start, interval
+                )
+                response_obj = {"status": "success", "task_id": str(uid)}
+                return web.json_response(text=json.dumps(response_obj))
+            else:
+                response_obj = {
+                    "status": "failed",
+                    "reason": "Parameter 'Interval' must have value >= 0",
+                }
+                return web.json_response(text=json.dumps(response_obj), status=500)
+        else:
+            response_obj = {
+                "status": "failed",
+                "reason": "Parameter 'Count' have value > 0",
+            }
+            return web.json_response(text=json.dumps(response_obj), status=500)
     except Exception as e:
         response_obj = {"status": "failed", "reason": str(e)}
-        return web.Response(text=json.dumps(response_obj), status=500)
+        return web.json_response(text=json.dumps(response_obj), status=500)
 
 
 async def task_monitoring(app: web.Application) -> None:

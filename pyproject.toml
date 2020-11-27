@@ -8,6 +8,7 @@ authors = ["Alexander Kulikov <nafanyabr@gmail.com>"]
 python = "3.6"
 aiohttp = "^3.7.3"
 jsons = "^1.3.0"
+pytest-aiohttp = "^0.3.0"
 
 [tool.poetry.dev-dependencies]
 flake8 = "^3.8.4"
